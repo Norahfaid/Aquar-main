@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="56" height="56" viewBox="0 0 56 56">
+  <defs>
+    <filter id="Rectangle_145" x="0" y="0" width="56" height="56" filterUnits="userSpaceOnUse">
+      <feOffset dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_24598" data-name="Group 24598" transform="translate(-50 -42)">
+    <g transform="matrix(1, 0, 0, 1, 50, 42)" filter="url(#Rectangle_145)">
+      <rect id="Rectangle_145-2" data-name="Rectangle 145" width="38" height="38" rx="19" transform="translate(9 6)" fill="#fff"/>
+    </g>
+    <path id="Path_836" data-name="Path 836" d="M33.358,22.323l-8.738-7.282a1.722,1.722,0,1,1,2.2-2.645L37.149,21a1.723,1.723,0,0,1,0,2.645l-10.325,8.6a1.722,1.722,0,1,1-2.2-2.645Z" transform="translate(47 44.677)" fill="#002431"/>
+  </g>
+</svg>

@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "183724817030",
+    "project_id": "aqar-6a2ef",
+    "storage_bucket": "aqar-6a2ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183724817030:android:0a6e6cf5449819557cef07",
+        "android_client_info": {
+          "package_name": "com.moltaqa.aquar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "183724817030-1ok4qpq1fcdsf3tjbh14t0ofqss1t1kq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCY8lFuo2fMzs84jWzD2vLn1Bv4wxGExQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "183724817030-1ok4qpq1fcdsf3tjbh14t0ofqss1t1kq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "183724817030-ikrnpvt43a93tuk8h45h6gj4iupni8ac.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.moltaqa.aquar"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,20 @@
+<svg id="Component_306_20" data-name="Component 306 – 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="36" height="40.8" viewBox="0 0 36 40.8">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#d2b593"/>
+      <stop offset="1" stop-color="#ffc682" stop-opacity="0.8"/>
+    </linearGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_2112" data-name="Rectangle 2112" width="23" height="23" transform="translate(-0.478 0.187)" fill="url(#linear-gradient)"/>
+    </clipPath>
+  </defs>
+  <g id="Group_820" data-name="Group 820" transform="translate(-0.335)">
+    <g id="Group_821" data-name="Group 821">
+      <rect id="Rectangle_2141" data-name="Rectangle 2141" width="36" height="36" rx="4" transform="translate(0.335)" fill="#161211"/>
+      <path id="Path_1217" data-name="Path 1217" d="M6.245,0,12.49,5.465H0Z" transform="translate(23.845 40.8) rotate(180)" fill="#161211"/>
+    </g>
+  </g>
+  <g id="Group_798" data-name="Group 798" transform="translate(6.477 6.813)" clip-path="url(#clip-path)">
+    <path id="Path_1097" data-name="Path 1097" d="M173.877,221.779h0l-9.171-9.171a2.069,2.069,0,0,0-2.927,0l-9.166,9.166-.009.01a2.069,2.069,0,0,0,1.377,3.526.616.616,0,0,0,.064,0h.365v6.749a2.426,2.426,0,0,0,2.423,2.423h3.588a.659.659,0,0,0,.659-.659v-5.291a1.106,1.106,0,0,1,1.105-1.105H164.3a1.107,1.107,0,0,1,1.106,1.105v5.291a.658.658,0,0,0,.658.659h3.588a2.425,2.425,0,0,0,2.423-2.423v-6.749h.339a2.07,2.07,0,0,0,1.465-3.532Z" transform="translate(-152 -211.773)" fill="url(#linear-gradient)"/>
+  </g>
+</svg>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="35.97" height="35.97" viewBox="0 0 35.97 35.97">
+  <defs>
+    <clipPath id="clip-path">
+      <ellipse id="Ellipse_805" data-name="Ellipse 805" cx="17.985" cy="17.985" rx="17.985" ry="17.985" transform="translate(0 0)" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Mask_Group_9" data-name="Mask Group 9" transform="translate(0 0)" clip-path="url(#clip-path)">
+    <g id="instagram_3_" data-name="instagram (3)" transform="translate(-3.569 -3.202)">
+      <path id="Path_53683" data-name="Path 53683" d="M17.985,0A17.985,17.985,0,1,1,0,17.985,17.985,17.985,0,0,1,17.985,0Z" transform="translate(3.643 3.005)" fill="#161211" fill-rule="evenodd"/>
+      <g id="Group_24331" data-name="Group 24331" transform="translate(10.971 10.572)">
+        <path id="Path_13167" data-name="Path 13167" d="M8.172,14.685c.07-.493.123-.989.212-1.478a5.421,5.421,0,0,1,5.271-4.754c3.378-.116,6.767-.122,10.145,0a5.429,5.429,0,0,1,5.361,5.426q.152,4.866,0,9.74A5.428,5.428,0,0,1,23.8,29.044c-3.378.122-6.767.125-10.145,0A5.523,5.523,0,0,1,8.285,23.6c-.018-.265-.074-.527-.113-.79V14.685ZM18.707,27.233c1.546,0,3.093.046,4.637-.011A3.772,3.772,0,0,0,27.31,23.27q.105-4.52,0-9.044a3.748,3.748,0,0,0-3.966-3.948q-4.607-.1-9.217,0a3.726,3.726,0,0,0-3.96,3.89q-.124,4.577,0,9.159a3.751,3.751,0,0,0,3.96,3.895c1.524.057,3.053.011,4.579.011Zm0,0" transform="translate(-8.172 -8.363)" fill="#fff"/>
+        <path id="Path_13168" data-name="Path 13168" d="M20.32,14.953a5.368,5.368,0,1,0,5.368,5.368A5.368,5.368,0,0,0,20.32,14.953Zm0,8.887a3.52,3.52,0,1,1,3.52-3.52A3.52,3.52,0,0,1,20.32,23.84Zm0,0" transform="translate(-9.788 -9.934)" fill="#fff"/>
+        <path id="Path_13169" data-name="Path 13169" d="M30.336,14.232a1.277,1.277,0,1,1-1.277-1.277A1.277,1.277,0,0,1,30.336,14.232Zm0,0" transform="translate(-12.846 -9.457)" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>
