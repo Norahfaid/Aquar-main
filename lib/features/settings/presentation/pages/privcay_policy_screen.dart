@@ -23,7 +23,11 @@ class PrivacyPolicyScreen extends StatelessWidget {
           title: tr("privacy_policy"),
           ontapLeading: () {
             sl<AppNavigator>().pop();
-          },
+          },leadingIcon: const Icon(
+          Icons.keyboard_arrow_right,
+          color: Colors.black,
+          size: 30,
+        )
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -55,7 +59,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                                 style: {
                                   "body": Style(
                                     fontSize: FontSize(16.0),
-                                    color: brownColor,
+                                    color: textColor,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 },

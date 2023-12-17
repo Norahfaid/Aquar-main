@@ -29,48 +29,45 @@ class _SplashScreenState extends State<SplashScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(0.0),
+                  padding: const EdgeInsets.all(16.0),
                   child: Lottie.asset(
                     newLogo,
                     frameRate: FrameRate.max,
-                    width:screenWidth,
-                    height: screenHeight,
-                    repeat: true
 
                   ),
                 ),
-                // if (state is AutoLoginInternetError)
-                //   Text(
-                //     tr('there_are_no_internet_please_try_again'),
-                //     style: const TextStyle(color: white),
-                //   ),
-                // if (state is AutoAuthInternetError)
-                //   Text(
-                //     tr('there_are_no_internet_please_try_again2'),
-                //     style: const TextStyle(color: white),
-                //   ),
-                // const SizedBox(height: 20),
-                // if (state is AutoLoginInternetError ||
-                //     state is AutoAuthInternetError)
-                //   MainButton(
-                //     text: tr("try_again"),
-                //     buttonWidth: screenWidth - 120,
-                //     onPressed: () {
-                //       context.read<AutoLoginCubit>().fAutoLogin();
-                //     },
-                //   ),
-                // const SizedBox(
-                //   height: 20,
-                // ),
-                // if (state is AutoLoginInternetError ||
-                //     state is AutoAuthInternetError)
-                //   MainButton(
-                //     text: tr("login"),
-                //     buttonWidth: screenWidth - 120,
-                //     onPressed: () {
-                //       context.read<AutoLoginCubit>().emitNoUser();
-                //     },
-                //   ),
+                if (state is AutoLoginInternetError)
+                  Text(
+                    tr('there_are_no_internet_please_try_again'),
+                    style: const TextStyle(color: white),
+                  ),
+                if (state is AutoAuthInternetError)
+                  Text(
+                    tr('there_are_no_internet_please_try_again2'),
+                    style: const TextStyle(color: white),
+                  ),
+                const SizedBox(height: 20),
+                if (state is AutoLoginInternetError ||
+                    state is AutoAuthInternetError)
+                  MainButton(
+                    text: tr("try_again"),
+                    buttonWidth: screenWidth - 120,
+                    onPressed: () {
+                      context.read<AutoLoginCubit>().fAutoLogin();
+                    },
+                  ),
+                const SizedBox(
+                  height: 20,
+                ),
+                if (state is AutoLoginInternetError ||
+                    state is AutoAuthInternetError)
+                  MainButton(
+                    text: tr("login"),
+                    buttonWidth: screenWidth - 120,
+                    onPressed: () {
+                      context.read<AutoLoginCubit>().emitNoUser();
+                    },
+                  ),
               ],
             );
           },
@@ -79,3 +76,4 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 }
+

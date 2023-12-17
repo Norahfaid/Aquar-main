@@ -46,7 +46,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           title: e.tr("profile"),
           ontapLeading: () {
             sl<AppNavigator>().pop();
-          },
+          },leadingIcon: const Icon(
+          Icons.keyboard_arrow_right,
+          color: Colors.black,
+          size: 30,
+        )
         ),
         body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),

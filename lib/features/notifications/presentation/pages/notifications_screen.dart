@@ -38,10 +38,11 @@ class _NotificationsScereenState extends State<NotificationsScereen> {
           ontapLeading: () {
             sl<AppNavigator>().pop();
           },
-          // leadingIcon: const Icon(
-          //   Icons.keyboard_arrow_right,
-          //   size: 30,
-          // )
+          leadingIcon: const Icon(
+            Icons.keyboard_arrow_right,
+            color: Colors.black,
+            size: 30,
+          )
         ),
         body: BlocConsumer<NotificationsCubit, NotificationsState>(
           listener: (context, state) {

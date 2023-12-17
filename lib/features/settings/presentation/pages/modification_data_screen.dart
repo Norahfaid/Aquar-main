@@ -62,10 +62,11 @@ class _ModificationDataScreenState extends State<ModificationDataScreen> {
           ontapLeading: () {
             sl<AppNavigator>().pop();
           },
-          // leadingIcon: const Icon(
-          //   Icons.keyboard_arrow_right,
-          //   size: 30,
-          // )
+          leadingIcon: const Icon(
+            Icons.keyboard_arrow_right,
+            color: Colors.black,
+            size: 30,
+          )
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),

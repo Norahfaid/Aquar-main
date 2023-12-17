@@ -33,9 +33,11 @@ class ChangePhoneScreen extends StatelessWidget {
         ontapLeading: () {
           sl<AppNavigator>().pop();
         },
-        // leadingIcon: const Icon(
-        //   Icons.keyboard_arrow_right,
-        // )
+          leadingIcon: const Icon(
+            Icons.keyboard_arrow_right,
+            color: Colors.black,
+            size: 30,
+          )
       ),
       body: SingleChildScrollView(
           child: Padding(

@@ -39,10 +39,11 @@ class _FavouritesScreenState extends State<FavouritesScreen> {
           ontapLeading: () {
             sl<AppNavigator>().pop();
           },
-          // leadingIcon: const Icon(
-          //   Icons.keyboard_arrow_right,
-          //   size: 30,
-          // )
+          leadingIcon: const Icon(
+            Icons.keyboard_arrow_right,
+            size: 30,
+            color: Colors.black,
+          )
         ),
         body: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
