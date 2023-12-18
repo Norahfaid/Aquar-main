@@ -54,14 +54,17 @@ class PrivacyPolicyScreen extends StatelessWidget {
                           ? const Center(child: Text("there_are_no_data"))
                           : Column(children: [
                               const Space(height: 20),
+
                               Html(
                                 data: state.response.data.content,
                                 style: {
                                   "body": Style(
                                     fontSize: FontSize(16.0),
-                                    color: textColor,
+                                    color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                   ),
+
+
                                 },
                               ),
                             ]);

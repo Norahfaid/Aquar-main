@@ -226,7 +226,7 @@ class _ModificationDataScreenState extends State<ModificationDataScreen> {
                           : Text(
                               e.tr("password"),
                               style: TextStyles.textViewMedium18
-                                  .copyWith(color: white),
+                                  .copyWith(color: textColor),
                             ),
                       const Space(
                         height: 10,
