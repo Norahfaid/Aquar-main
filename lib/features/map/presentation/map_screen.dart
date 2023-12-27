@@ -15,7 +15,7 @@ import '../../../injection_container/injection_container.dart';
 import '../../home/presentation/cubit/add_annoncement/addannoncement_cubit.dart';
 import 'cubit/pick_map/pick_map_cubit.dart';
 
-const googleServicesAPIKey = "AIzaSyDuTp7RMNtSz-5z7h5utbygmA90E9enkUI";
+const googleServicesAPIKey = "AIzaSyCY8lFuo2fMzs84jWzD2vLn1Bv4wxGExQw";
 
 class PickLocationMapScreen extends StatefulWidget {
   const PickLocationMapScreen(

@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
           drawer: const MainDrawer(),
           key: scaffoldKey,
           resizeToAvoidBottomInset: false,
-          backgroundColor: const Color(0xff151515),
+          backgroundColor: const Color(0xffffffff),
           body: !isMap
               ? VerticalViewWidget(
                   scaffoldKey: scaffoldKey, toggleMap: toggleMap)
