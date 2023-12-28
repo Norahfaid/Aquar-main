@@ -97,410 +97,410 @@ class _HomeScreenState extends State<HomeScreen> {
           backgroundColor: const Color(0xffffffff),
           body: !isMap
               ? VerticalViewWidget(
-                  scaffoldKey: scaffoldKey, toggleMap: toggleMap)
+              scaffoldKey: scaffoldKey, toggleMap: toggleMap)
               : BlocConsumer<FilterCubit, FilterState>(
-                  listener: (context, state) {
-                    if (state is GetFilterErrorState) {
-                      showToast(state.message);
-                    }
-                  },
-                  builder: (context, filterState) {
-                    final filterBloc = context.watch<FilterCubit>();
+            listener: (context, state) {
+              if (state is GetFilterErrorState) {
+                showToast(state.message);
+              }
+            },
+            builder: (context, filterState) {
+              final filterBloc = context.watch<FilterCubit>();
 
-                    return Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        BlocBuilder<GetRealStatesCubit, GetRealStatesState>(
-                          builder: (context, getRealStates) {
-                            if (getRealStates is! GetRealStatesSuccessState) {
-                              return const SizedBox();
-                            }
-                            return BlocConsumer<PickMapCubit, PickMapState>(
-                              listener: (context, state) {},
-                              builder: (context, state) {
-                                final pickMapCubit = sl<PickMapCubit>();
-                                return GoogleMap(
-                                  mapType: MapType.normal,
-                                  myLocationButtonEnabled: false,
-                                  zoomControlsEnabled: false,
-                                  myLocationEnabled: true,
-                                  mapToolbarEnabled: false,
-                                  markers: filterBloc.markers.toSet(),
-                                  initialCameraPosition:
-                                      pickMapCubit.cameraPosition,
-                                  onMapCreated: (GoogleMapController
-                                      mapController) async {
-                                    if (!_controller.isCompleted) {
-                                      _controller.complete(mapController);
-                                      pickMapCubit
-                                          .updateController(mapController);
-                                    }
+              return Stack(
+                alignment: Alignment.center,
+                children: [
+                  BlocBuilder<GetRealStatesCubit, GetRealStatesState>(
+                    builder: (context, getRealStates) {
+                      if (getRealStates is! GetRealStatesSuccessState) {
+                        return const SizedBox();
+                      }
+                      return BlocConsumer<PickMapCubit, PickMapState>(
+                        listener: (context, state) {},
+                        builder: (context, state) {
+                          final pickMapCubit = sl<PickMapCubit>();
+                          return GoogleMap(
+                            mapType: MapType.normal,
+                            myLocationButtonEnabled: false,
+                            zoomControlsEnabled: false,
+                            myLocationEnabled: true,
+                            mapToolbarEnabled: false,
+                            markers: filterBloc.markers.toSet(),
+                            initialCameraPosition:
+                            pickMapCubit.cameraPosition,
+                            onMapCreated: (GoogleMapController
+                            mapController) async {
+                              if (!_controller.isCompleted) {
+                                _controller.complete(mapController);
+                                pickMapCubit
+                                    .updateController(mapController);
+                              }
 
-                                    mapController.setMapStyle(aqarMapStyle);
-                                    final filtterCubit = sl<FilterCubit>();
-                                    current = await pickMapCubit
-                                        .getUserAccessLocation();
-                                    if (current == null) {
-                                      showToast(
-                                          "Location permissions are permanently denied, we cannot get your location");
-                                      return;
-                                    }
-                                    final latlng = current!.latLngFromPostion();
-                                    // ignore: use_build_context_synchronously
-                                    pickMapCubit.initMapController(
-                                        // widget.perviousLatLng == null
-                                        //     ? latlng
-                                        //     : widget.perviousLatLng!,
-                                        latlng,
-                                        mapController,
-                                        context);
+                              mapController.setMapStyle(aqarMapStyle);
+                              final filtterCubit =
+                              context.read<FilterCubit>();
+                              current = await pickMapCubit
+                                  .getUserAccessLocation();
+                              if (current == null) {
+                                showToast(
+                                    "Location permissions are permanently denied, we cannot get your location");
+                                return;
+                              }
+                              final latlng = current!.latLngFromPostion();
+                              // ignore: use_build_context_synchronously
+                              pickMapCubit.initMapController(
+                                // widget.perviousLatLng == null
+                                //     ? latlng
+                                //     : widget.perviousLatLng!,
+                                  latlng,
+                                  mapController,
+                                  context);
 
-                                    filtterCubit.fgetFilterData(
-                                        map: 1,
-                                        ifIsMore: true,
-                                        isNearest: isMap,
-                                        latLang: latlng.toStringServer(),
-                                        // status: "published",
-                                        markerOnTap: () {
-                                          setState(() {
-                                            isClicked = true;
-                                          });
-                                        },
-                                        buildingtype: getRealStates
-                                            .data.first.id
-                                            .toString());
+                              filtterCubit.fgetFilterData(
+                                  map: 1,
+                                  isFirst: true,
+                                  isNearest: isMap,
+                                  latLang: latlng.toStringServer(),
+                                  markerOnTap: () {
+                                    setState(() {
+                                      isClicked = true;
+                                    });
                                   },
-                                  // onTap: (latLng) {
-                                  //   pickMapCubit.pickLocation(latLng);
-                                  // },
-                                );
-                              },
-                            );
-                          },
-                        ),
-                        SidePadding(
-                          sidePadding: 15,
-                          child: Stack(
-                            alignment: Alignment.bottomCenter,
+                                  buildingtype: getRealStates
+                                      .data.first.id
+                                      .toString());
+                            },
+                            // onTap: (latLng) {
+                            //   pickMapCubit.pickLocation(latLng);
+                            // },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  SidePadding(
+                    sidePadding: 15,
+                    child: Stack(
+                      alignment: Alignment.bottomCenter,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(
+                              0,
+                              0,
+                              5,
+                              filterBloc.selectedMarker != null
+                                  ? 300.h
+                                  : 175.h),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(
-                                    0,
-                                    0,
-                                    5,
-                                    filterBloc.selectedMarker != null
-                                        ? 300.h
-                                        : 175.h),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        IconButtonCard(
-                                          image: menu,
-                                          isImage: true,
-                                          onTap: () {
-                                            context
-                                                .read<FilterCubit>()
-                                                .fgetFilterData(
-                                                    map: 1,
-                                                    // status: "published",
-                                                    isFirst: true,
-                                                    buildingtype: context
-                                                        .read<FilterCubit>()
-                                                        .buildingTypeSelectedId);
-                                            setState(() {
-                                              isMap = !isMap;
-                                              filterBloc.selectedMarker = null;
-                                              isClicked = false;
-                                            });
-                                          },
-                                        ),
-                                        const Space(
-                                          height: 10,
-                                        ),
-                                        IconButtonCard(
-                                          image: zoom,
-                                          isImage: true,
-                                          icon: Icons.filter_alt_outlined,
-                                          onTap: () {
-                                            final pickMapCubit =
-                                                sl<PickMapCubit>();
-                                            pickMapCubit
-                                                .getCurrentLocation(context);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Stack(
-                                alignment: Alignment.bottomCenter,
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  Column(children: [
-                                    const Space(height: 35),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        const Space(),
-                                        HideFromGuestWidget(
-                                          child: Stack(
-                                            children: [
-                                              IconButtonCard(
-                                                icon: Icons.notifications_sharp,
-                                                isImage: false,
-                                                avtarColor: lightBlackColor,
-                                                color1: blackColor,
-                                                color2: blackColor,
-                                                radiusSize: 25,
-                                                onTap: () {
-                                                  sl<AppNavigator>().push(
-                                                      screen:
-                                                          const NotificationsScereen());
-                                                },
-                                              ),
-                                              const Padding(
-                                                padding: EdgeInsets.all(15.0),
-                                                child: CircleAvatar(
-                                                  backgroundColor: mainColor,
-                                                  radius: 5,
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const Space(height: 20),
-                                    BlocBuilder<FilterCubit, FilterState>(
-                                      builder: (context, state) {
-                                        final selectedId = context
-                                            .watch<FilterCubit>()
-                                            .buildingTypeSelectedId;
-                                        return SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
-                                          physics:
-                                              const BouncingScrollPhysics(),
-                                          child: BlocConsumer<
-                                              GetRealStatesCubit,
-                                              GetRealStatesState>(
-                                            listener: (context, state) {
-                                              if (state
-                                                  is GetRealStatesErrorState) {
-                                                showToast(state.message);
-                                              }
-                                              if (state
-                                                  is GetRealStatesSuccessState) {
-                                                context
-                                                    .read<FilterCubit>()
-                                                    .changeSelectedId(
-                                                        newId: state
-                                                            .data.first.id
-                                                            .toString());
-                                              }
-                                            },
-                                            builder: (context, state) {
-                                              final realStateList = context
-                                                  .read<GetRealStatesCubit>()
-                                                  .raelStateList;
-                                              if (state
-                                                  is GetRealStatesLoadingState) {
-                                                return const SizedBox();
-                                              }
-                                              return Row(
-                                                  children: List.generate(
-                                                      realStateList.length,
-                                                      (index) => Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                        .symmetric(
-                                                                    horizontal:
-                                                                        5),
-                                                            child: InkWell(
-                                                              onTap: filterState
-                                                                      is GetFilterLoadingState
-                                                                  ? () {
-                                                                      showToast(
-                                                                          tr("please_wait_until_data_loaded"));
-                                                                    }
-                                                                  : () async {
-                                                                      final filterCubit =
-                                                                          context
-                                                                              .read<FilterCubit>();
-
-                                                                      // selected = index;
-                                                                      filterCubit.changeSelectedId(
-                                                                          newId: realStateList[index]
-                                                                              .id
-                                                                              .toString());
-
-                                                                      setState(
-                                                                          () {});
-                                                                      filterBloc
-                                                                          .emitGetFilterLoadingState();
-                                                                      filterCubit
-                                                                          .buildingTypeSelectedId = realStateList[
-                                                                              index]
-                                                                          .id
-                                                                          .toString();
-                                                                      filterCubit.fgetFilterData(
-                                                                          isFirst: true,
-                                                                          map: 1,
-                                                                          // status:
-                                                                          //     "published",
-                                                                          isNearest: isMap,
-                                                                          latLang: (await context.read<PickMapCubit>().getUserAccessLocation()).latLngFromPostion().toStringServer(),
-                                                                          buildingtype: realStateList[index].id.toString());
-                                                                    },
-                                                              child: Container(
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                        color: selectedId == realStateList[index].id.toString()
-                                                                            ? mainColor
-                                                                            : lightBlackColor,
-                                                                        boxShadow: const [
-                                                                          BoxShadow(
-                                                                              color: white,
-                                                                              spreadRadius: 0,
-                                                                              blurRadius: 0),
-                                                                        ],
-                                                                        borderRadius:
-                                                                            const BorderRadius.all(Radius.circular(
-                                                                                10.0)),
-                                                                        border:
-                                                                            Border.all(
-                                                                          color: selectedId == realStateList[index].id.toString()
-                                                                              ? mainColor
-                                                                              : lightBlackColor,
-                                                                        )),
-                                                                child: Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          15,
-                                                                      vertical:
-                                                                          10),
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      realStateList[
-                                                                              index]
-                                                                          .name,
-                                                                      style: TextStyles
-                                                                          .textViewBold16
-                                                                          .copyWith(
-                                                                              color: selectedId == realStateList[index].id.toString() ? white : greyColor),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          )));
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ]),
-                                  Padding(
-                                    padding: isClicked
-                                        ? const EdgeInsets.only(
-                                            bottom: 40, left: 5, right: 5)
-                                        : EdgeInsets.zero,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        filterBloc.selectedMarker != null
-                                            ? Column(
-                                                children: [
-                                                  CircleAvatar(
-                                                    backgroundColor: redColor,
-                                                    child: IconButton(
-                                                      onPressed: () {
-                                                        filterBloc
-                                                            .clearSelectedMarker();
-                                                      },
-                                                      icon: const Icon(
-                                                        Icons.close_rounded,
-                                                        color: white,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  HomeCard(
-                                                    issold: filterBloc
-                                                                .selectedMarker!
-                                                                .currentStatus ==
-                                                            'sold'
-                                                        ? true
-                                                        : false,
-                                                    filterData: filterBloc
-                                                        .selectedMarker!,
-                                                    views: filterBloc
-                                                        .selectedMarker!.views
-                                                        .toString(),
-                                                    tap: (() {
-                                                      sl<AppNavigator>().push(
-                                                          screen: AquarDetailsScreen(
-                                                              fromUnderReview:
-                                                                  false,
-                                                              fromMap: true,
-                                                              data: filterBloc
-                                                                  .selectedMarker!));
-                                                      setState(() {
-                                                        isClicked = false;
-                                                        filterBloc
-                                                            .clearSelectedMarker();
-                                                      });
-                                                    }),
-                                                    imgUrl: filterBloc
-                                                        .selectedMarker!.icon,
-                                                    isFavorite: filterBloc
-                                                        .selectedMarker!
-                                                        .isFavorite,
-                                                    productName: filterBloc
-                                                        .selectedMarker!
-                                                        .buildingType
-                                                        .name,
-                                                    curreny: tr("rs"),
-                                                    date: filterBloc
-                                                        .selectedMarker!
-                                                        .creationTime,
-                                                    distance:
-                                                        "${filterBloc.selectedMarker!.minDistance} -${filterBloc.selectedMarker!.maxDistance} ",
-                                                    location: filterBloc
-                                                        .selectedMarker!
-                                                        .address,
-                                                    price:
-                                                        "${filterBloc.selectedMarker!.minPrice}- ${filterBloc.selectedMarker!.maxPrice}",
-                                                    advId: filterBloc
-                                                        .selectedMarker!.id,
-                                                  ),
-                                                ],
-                                              )
-                                            : SafeArea(
-                                                child: BottomIcons(
-                                                    scaffoldKey: scaffoldKey),
-                                              ),
-                                      ],
-                                    ),
+                                  IconButtonCard(
+                                    image: menu,
+                                    isImage: true,
+                                    onTap: () {
+                                      context
+                                          .read<FilterCubit>()
+                                          .fgetFilterData(
+                                          map: 1,
+                                          isFirst: true,
+                                          buildingtype: context
+                                              .read<FilterCubit>()
+                                              .buildingTypeSelectedId);
+                                      setState(() {
+                                        isMap = !isMap;
+                                        filterBloc.selectedMarker = null;
+                                        isClicked = false;
+                                      });
+                                    },
                                   ),
-                                  if (filterState is GetFilterLoadingState &&
-                                      isMap)
-                                    const Loading()
+                                  const Space(
+                                    height: 10,
+                                  ),
+                                  IconButtonCard(
+                                    image: zoom,
+                                    isImage: true,
+                                    icon: Icons.filter_alt_outlined,
+                                    onTap: () {
+                                      final pickMapCubit =
+                                      sl<PickMapCubit>();
+                                      pickMapCubit
+                                          .getCurrentLocation(context);
+                                    },
+                                  ),
                                 ],
                               ),
                             ],
                           ),
-                        )
+                        ),
+                        Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            Column(children: [
+                              const Space(height: 35),
+                              Row(
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Space(),
+                                  HideFromGuestWidget(
+                                    child: Stack(
+                                      children: [
+                                        IconButtonCard(
+                                          icon: Icons.notifications_sharp,
+                                          isImage: false,
+                                          avtarColor: lightBlackColor,
+                                          color1: blackColor,
+                                          color2: blackColor,
+                                          radiusSize: 25,
+                                          onTap: () {
+                                            sl<AppNavigator>().push(
+                                                screen:
+                                                const NotificationsScereen());
+                                          },
+                                        ),
+                                        const Padding(
+                                          padding: EdgeInsets.all(15.0),
+                                          child: CircleAvatar(
+                                            backgroundColor: mainColor,
+                                            radius: 5,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const Space(height: 20),
+                              BlocBuilder<FilterCubit, FilterState>(
+                                builder: (context, state) {
+                                  final selectedId = context
+                                      .watch<FilterCubit>()
+                                      .buildingTypeSelectedId;
+                                  return SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    physics:
+                                    const BouncingScrollPhysics(),
+                                    child: BlocConsumer<
+                                        GetRealStatesCubit,
+                                        GetRealStatesState>(
+                                      listener: (context, state) {
+                                        if (state
+                                        is GetRealStatesErrorState) {
+                                          showToast(state.message);
+                                        }
+                                        if (state
+                                        is GetRealStatesSuccessState) {
+                                          context
+                                              .read<FilterCubit>()
+                                              .changeSelectedId(
+                                              newId: state
+                                                  .data.first.id
+                                                  .toString());
+                                        }
+                                      },
+                                      builder: (context, state) {
+                                        final realStateList = context
+                                            .read<GetRealStatesCubit>()
+                                            .raelStateList;
+                                        if (state
+                                        is GetRealStatesLoadingState) {
+                                          return const SizedBox();
+                                        }
+                                        return Row(
+                                            children: List.generate(
+                                                realStateList.length,
+                                                    (index) => Padding(
+                                                  padding:
+                                                  const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal:
+                                                      5),
+                                                  child: InkWell(
+                                                    onTap: filterState
+                                                    is GetFilterLoadingState
+                                                        ? () {
+                                                      showToast(
+                                                          tr("please_wait_until_data_loaded"));
+                                                    }
+                                                        : () async {
+                                                      final filterCubit =
+                                                      context
+                                                          .read<FilterCubit>();
+
+                                                      // selected = index;
+                                                      filterCubit.changeSelectedId(
+                                                          newId: realStateList[index]
+                                                              .id
+                                                              .toString());
+
+                                                      setState(
+                                                              () {});
+                                                      filterBloc
+                                                          .emitGetFilterLoadingState();
+                                                      filterCubit
+                                                          .buildingTypeSelectedId = realStateList[
+                                                      index]
+                                                          .id
+                                                          .toString();
+                                                      filterCubit.fgetFilterData(
+                                                          isFirst: true,
+                                                          map: 1,
+                                                          // status:
+                                                          //     "published",
+                                                          isNearest: isMap,
+                                                          latLang: (await context.read<PickMapCubit>().getUserAccessLocation()).latLngFromPostion().toStringServer(),
+                                                          buildingtype: realStateList[index].id.toString());
+                                                    },
+                                                    child: Container(
+                                                      decoration:
+                                                      BoxDecoration(
+                                                          color: selectedId == realStateList[index].id.toString()
+                                                              ? mainColor
+                                                              : lightBlackColor,
+                                                          boxShadow: const [
+                                                            BoxShadow(
+                                                                color: white,
+                                                                spreadRadius: 0,
+                                                                blurRadius: 0),
+                                                          ],
+                                                          borderRadius: const BorderRadius
+                                                              .all(
+                                                              Radius.circular(
+                                                                  10.0)),
+                                                          border:
+                                                          Border.all(
+                                                            color: selectedId == realStateList[index].id.toString()
+                                                                ? mainColor
+                                                                : lightBlackColor,
+                                                          )),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal:
+                                                            15,
+                                                            vertical:
+                                                            10),
+                                                        child: Center(
+                                                          child: Text(
+                                                            realStateList[
+                                                            index]
+                                                                .name,
+                                                            style: TextStyles
+                                                                .textViewBold16
+                                                                .copyWith(
+                                                                color: selectedId == realStateList[index].id.toString() ? white : greyColor),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )));
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            ]),
+                            Padding(
+                              padding: isClicked
+                                  ? const EdgeInsets.only(
+                                  bottom: 40, left: 5, right: 5)
+                                  : EdgeInsets.zero,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  filterBloc.selectedMarker != null
+                                      ? Column(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: redColor,
+                                        child: IconButton(
+                                          onPressed: () {
+                                            filterBloc
+                                                .clearSelectedMarker();
+                                          },
+                                          icon: const Icon(
+                                            Icons.close_rounded,
+                                            color: white,
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      HomeCard(
+                                        issold: filterBloc
+                                            .selectedMarker!
+                                            .currentStatus ==
+                                            'sold'
+                                            ? true
+                                            : false,
+                                        filterData: filterBloc
+                                            .selectedMarker!,
+                                        views: filterBloc
+                                            .selectedMarker!.views
+                                            .toString(),
+                                        tap: (() {
+                                          sl<AppNavigator>().push(
+                                              screen: AquarDetailsScreen(
+                                                  fromUnderReview:
+                                                  false,
+                                                  fromMap: true,
+                                                  data: filterBloc
+                                                      .selectedMarker!));
+                                          setState(() {
+                                            isClicked = false;
+                                            filterBloc
+                                                .clearSelectedMarker();
+                                          });
+                                        }),
+                                        imgUrl: filterBloc
+                                            .selectedMarker!.icon,
+                                        isFavorite: filterBloc
+                                            .selectedMarker!
+                                            .isFavorite,
+                                        productName: filterBloc
+                                            .selectedMarker!
+                                            .buildingType
+                                            .name,
+                                        curreny: tr("rs"),
+                                        date: filterBloc
+                                            .selectedMarker!
+                                            .creationTime,
+                                        distance:
+                                        "${filterBloc.selectedMarker!.minDistance} -${filterBloc.selectedMarker!.maxDistance} ",
+                                        location: filterBloc
+                                            .selectedMarker!
+                                            .address,
+                                        price:
+                                        "${filterBloc.selectedMarker!.minPrice}- ${filterBloc.selectedMarker!.maxPrice}",
+                                        advId: filterBloc
+                                            .selectedMarker!.id,
+                                      ),
+                                    ],
+                                  )
+                                      : SafeArea(
+                                    child: BottomIcons(
+                                        scaffoldKey: scaffoldKey),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            if (filterState is GetFilterLoadingState &&
+                                isMap)
+                              const Loading()
+                          ],
+                        ),
                       ],
-                    );
-                  },
-                )),
+                    ),
+                  )
+                ],
+              );
+            },
+          )),
     );
   }
 }
@@ -596,23 +596,13 @@ class _VerticalViewWidgetState extends State<VerticalViewWidget> {
                     hintText: tr("search"),
                     controller: searchController,
                     onChanged: (value) {
-                      final filterCubit = sl<FilterCubit>();
-                      if (value.isEmpty) {
-                        return filterCubit.fgetFilterData(
-                          ifIsMore: true,
+                      final filterCubit = context.read<FilterCubit>();
+
+                      filterCubit.fgetFilterData(
                           map: 1,
-                          // status: "published",
-                        );
-                      }
-                      if (value.length >= 3) {
-                        filterCubit.fgetFilterData(
-                            map: 1,
-                            // status: "published",
-                            search: value.trim(),
-                            buildingtype: filterCubit.buildingTypeSelectedId,
-                            isSearch: true,
-                            isFirst: true);
-                      }
+                          search: value.trim(),
+                          buildingtype: filterCubit.buildingTypeSelectedId,
+                          isFirst: true);
                     },
                     fillColor: lightBlackColor,
                     suffixIcon: const Icon(
@@ -629,13 +619,13 @@ class _VerticalViewWidgetState extends State<VerticalViewWidget> {
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
                       child:
-                          BlocConsumer<GetRealStatesCubit, GetRealStatesState>(
+                      BlocConsumer<GetRealStatesCubit, GetRealStatesState>(
                         listener: (context, state) {
                           if (state is GetRealStatesErrorState) {
                             showToast(state.message);
                           }
                           if (state is GetRealStatesSuccessState) {
-                            sl<FilterCubit>().changeSelectedId(
+                            context.read<FilterCubit>().changeSelectedId(
                                 newId: state.data.first.id.toString());
                           }
                         },
@@ -648,103 +638,103 @@ class _VerticalViewWidgetState extends State<VerticalViewWidget> {
                           return Row(
                               children: List.generate(
                                   realStateList.length,
-                                  (index) => Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        child: InkWell(
-                                          onTap: filterState
-                                                  is GetFilterLoadingState
-                                              ? () {
-                                                  showToast(tr(
-                                                      "please_wait_until_data_loaded"));
-                                                }
-                                              : () async {
-                                                  final filterCubit = context
-                                                      .read<FilterCubit>();
+                                      (index) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: InkWell(
+                                      onTap: filterState
+                                      is GetFilterLoadingState
+                                          ? () {
+                                        showToast(tr(
+                                            "please_wait_until_data_loaded"));
+                                      }
+                                          : () async {
+                                        final filterCubit = context
+                                            .read<FilterCubit>();
 
-                                                  // selected = index;
-                                                  filterCubit.changeSelectedId(
-                                                      newId:
-                                                          realStateList[index]
-                                                              .id
-                                                              .toString());
+                                        // selected = index;
+                                        filterCubit.changeSelectedId(
+                                            newId:
+                                            realStateList[index]
+                                                .id
+                                                .toString());
 
-                                                  setState(() {});
-                                                  filterBloc
-                                                      .emitGetFilterLoadingState();
-                                                  filterCubit
-                                                          .buildingTypeSelectedId =
-                                                      realStateList[index]
-                                                          .id
-                                                          .toString();
-                                                  filterCubit.fgetFilterData(
-                                                      search:
-                                                          searchController.text,
-                                                      isFirst: true,
-                                                      map: 1,
-                                                      // status:
-                                                      //     "published",
-                                                      isNearest: false,
-                                                      latLang: (await context
-                                                              .read<
-                                                                  PickMapCubit>()
-                                                              .getUserAccessLocation())
-                                                          .latLngFromPostion()
-                                                          .toStringServer(),
-                                                      buildingtype:
-                                                          realStateList[index]
-                                                              .id
-                                                              .toString());
-                                                },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: selectedId ==
-                                                        realStateList[index]
-                                                            .id
-                                                            .toString()
-                                                    ? mainColor
-                                                    : lightBlackColor,
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                      color: white,
-                                                      spreadRadius: 0,
-                                                      blurRadius: 0),
-                                                ],
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10.0)),
-                                                border: Border.all(
+                                        setState(() {});
+                                        filterBloc
+                                            .emitGetFilterLoadingState();
+                                        filterCubit
+                                            .buildingTypeSelectedId =
+                                            realStateList[index]
+                                                .id
+                                                .toString();
+                                        filterCubit.fgetFilterData(
+                                            search:
+                                            searchController.text,
+                                            isFirst: true,
+                                            map: 1,
+                                            // status:
+                                            //     "published",
+                                            isNearest: false,
+                                            latLang: (await context
+                                                .read<
+                                                PickMapCubit>()
+                                                .getUserAccessLocation())
+                                                .latLngFromPostion()
+                                                .toStringServer(),
+                                            buildingtype:
+                                            realStateList[index]
+                                                .id
+                                                .toString());
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: selectedId ==
+                                                realStateList[index]
+                                                    .id
+                                                    .toString()
+                                                ? mainColor
+                                                : lightBlackColor,
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                  color: white,
+                                                  spreadRadius: 0,
+                                                  blurRadius: 0),
+                                            ],
+                                            borderRadius:
+                                            const BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                            border: Border.all(
+                                              color: selectedId ==
+                                                  realStateList[index]
+                                                      .id
+                                                      .toString()
+                                                  ? mainColor
+                                                  : lightBlackColor,
+                                            )),
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 15,
+                                              vertical: 10),
+                                          child: Center(
+                                            child: Text(
+                                              realStateList[index].name,
+                                              style: TextStyles
+                                                  .textViewBold16
+                                                  .copyWith(
                                                   color: selectedId ==
-                                                          realStateList[index]
-                                                              .id
-                                                              .toString()
-                                                      ? mainColor
-                                                      : lightBlackColor,
-                                                )),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 15,
-                                                      vertical: 10),
-                                              child: Center(
-                                                child: Text(
-                                                  realStateList[index].name,
-                                                  style: TextStyles
-                                                      .textViewBold16
-                                                      .copyWith(
-                                                          color: selectedId ==
-                                                                  realStateList[
-                                                                          index]
-                                                                      .id
-                                                                      .toString()
-                                                              ? white
-                                                              : greyColor),
-                                                ),
-                                              ),
+                                                      realStateList[
+                                                      index]
+                                                          .id
+                                                          .toString()
+                                                      ? white
+                                                      : greyColor),
                                             ),
                                           ),
                                         ),
-                                      )));
+                                      ),
+                                    ),
+                                  )));
                         },
                       ),
                     );
@@ -753,65 +743,65 @@ class _VerticalViewWidgetState extends State<VerticalViewWidget> {
                 const Space(height: 10),
                 filterState is GetFilterLoadingState
                     ? SizedBox(
-                        height: screenHeight / 3,
-                        child: const Center(
-                          child: Loading(),
-                        ))
+                    height: screenHeight / 3,
+                    child: const Center(
+                      child: Loading(),
+                    ))
                     : Expanded(
-                        child: ListView.builder(
-                            padding: EdgeInsets.zero,
-                            controller: _scrollController,
-                            itemCount: filterBloc.filterData.length + 1,
-                            itemBuilder: (BuildContext context, int index) {
-                              if (filterBloc.filterData.length == index) {
-                                if (filterState
-                                    is GetFilterPaginationLoadingState) {
-                                  return const Center(
-                                      child: CircularProgressIndicator());
-                                } else {
-                                  return const SizedBox();
-                                }
-                              }
-                              return Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                child: HomeCard(
-                                  issold: filterBloc.filterData[index]
-                                              .currentStatus ==
-                                          'sold'
-                                      ? true
-                                      : false,
-                                  views: filterBloc.filterData[index].views
-                                      .toString(),
-                                  filterData: filterBloc.filterData[index],
-                                  advId: filterBloc.filterData[index].id,
-                                  tap: (() async {
-                                    await sl<AppNavigator>()
-                                        .push(
-                                            screen: AquarDetailsScreen(
-                                          // adUserId: ,
-                                          data: filterBloc.filterData[index],
-                                          fromUnderReview: false,
-                                        ))
-                                        .then((value) => setState(() {}));
-                                  }),
-                                  imgUrl: filterBloc.filterData[index].icon,
-                                  isFavorite:
-                                      filterBloc.filterData[index].isFavorite,
-                                  productName:
-                                      "${filterBloc.filterData[index].id.toString()}# ${filterBloc.filterData[index].buildingType.name.toString()}",
-                                  curreny: tr("sr"),
-                                  date:
-                                      filterBloc.filterData[index].creationTime,
-                                  distance:
-                                      "${filterBloc.filterData[index].minDistance} -${filterBloc.filterData[index].maxDistance} ",
-                                  location:
-                                      filterBloc.filterData[index].address,
-                                  price:
-                                      "${filterBloc.filterData[index].minPrice} -${filterBloc.filterData[index].maxPrice} ",
-                                ),
-                              );
-                            })),
+                    child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        controller: _scrollController,
+                        itemCount: filterBloc.filterData.length + 1,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (filterBloc.filterData.length == index) {
+                            if (filterState
+                            is GetFilterPaginationLoadingState) {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            } else {
+                              return const SizedBox();
+                            }
+                          }
+                          return Padding(
+                            padding:
+                            const EdgeInsets.symmetric(vertical: 5),
+                            child: HomeCard(
+                              issold: filterBloc.filterData[index]
+                                  .currentStatus ==
+                                  'sold'
+                                  ? true
+                                  : false,
+                              views: filterBloc.filterData[index].views
+                                  .toString(),
+                              filterData: filterBloc.filterData[index],
+                              advId: filterBloc.filterData[index].id,
+                              tap: (() async {
+                                await sl<AppNavigator>()
+                                    .push(
+                                    screen: AquarDetailsScreen(
+                                      // adUserId: ,
+                                      data: filterBloc.filterData[index],
+                                      fromUnderReview: false,
+                                    ))
+                                    .then((value) => setState(() {}));
+                              }),
+                              imgUrl: filterBloc.filterData[index].icon,
+                              isFavorite:
+                              filterBloc.filterData[index].isFavorite,
+                              productName:
+                              "${filterBloc.filterData[index].id.toString()}# ${filterBloc.filterData[index].buildingType.name.toString()}",
+                              curreny: tr("sr"),
+                              date:
+                              filterBloc.filterData[index].creationTime,
+                              distance:
+                              "${filterBloc.filterData[index].minDistance} -${filterBloc.filterData[index].maxDistance} ",
+                              location:
+                              filterBloc.filterData[index].address,
+                              price:
+                              "${filterBloc.filterData[index].minPrice} -${filterBloc.filterData[index].maxPrice} ",
+                            ),
+                          );
+                        })),
               ]),
             ),
             Column(
@@ -823,19 +813,18 @@ class _VerticalViewWidgetState extends State<VerticalViewWidget> {
                     onTap: () async {
                       widget.toggleMap();
                       context.read<FilterCubit>().fgetFilterData(
-                            map: 1,
-                            // status: "published",
-                            isFirst: true,
-                            isNearest: true,
-                            buildingtype: context
-                                .read<FilterCubit>()
-                                .buildingTypeSelectedId,
-                            latLang: (await context
-                                    .read<PickMapCubit>()
-                                    .getUserAccessLocation())
-                                .latLngFromPostion()
-                                .toStringServer(),
-                          );
+                        map: 1,
+                        isFirst: true,
+                        isNearest: true,
+                        buildingtype: context
+                            .read<FilterCubit>()
+                            .buildingTypeSelectedId,
+                        latLang: (await context
+                            .read<PickMapCubit>()
+                            .getUserAccessLocation())
+                            .latLngFromPostion()
+                            .toStringServer(),
+                      );
                     },
                     child: Container(
                       height: 40,

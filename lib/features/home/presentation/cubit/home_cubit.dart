@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 import 'dart:ui';
 
@@ -149,8 +150,8 @@ class FilterCubit extends Cubit<FilterState> {
   FilterParams filterParams = FilterParams();
   int currentPage = 1;
   bool isMore = true;
+  Timer? timer;
   Future<void> fgetFilterData({
-    bool? ifIsMore,
     String? latLang,
     String? bathroomsCount,
     required int map,
@@ -158,9 +159,8 @@ class FilterCubit extends Cubit<FilterState> {
     String? mine,
     bool? isNearest,
     String? search,
-    bool isSearch = false,
     Function? markerOnTap,
-    bool isFirst = false,
+    bool? isFirst,
     String? apartmentscount,
     String? age,
     String? bedroomscount,
@@ -177,114 +177,117 @@ class FilterCubit extends Cubit<FilterState> {
     String? shopscount,
     String? streetwidth,
   }) async {
-    if (isFirst) {
-      isMore = true;
-      currentPage = 1;
-      filterData = [];
+    if (timer?.isActive ?? false) {
+      return;
     }
-    if (isSearch) {
-      currentPage = 1;
-    }
-    if (latLang != null) {
-      lastLatLng = latLang;
-    }
-    if (map == 1 && latLang == null) {
-      latLang = lastLatLng;
-    }
-    isMore = ifIsMore ?? (isSearch || isMore);
-    if (isMore) {
-      if (currentPage == 1) {
+    timer = Timer(const Duration(milliseconds: 500), () async {
+      isMore = isFirst ?? isMore;
+      if (isFirst ?? false) {
+        isMore = true;
+        currentPage = 1;
         filterData = [];
-        emit(GetFilterLoadingState());
-        filterParams = FilterParams(
-          page: currentPage,
-          search: search,
-          isNearst: isNearest,
-          latLang: latLang,
-          age: age,
-          map: map,
-          mine: mine,
-          status: status,
-          bathroomsCount: bathroomsCount,
-          apartmentscount: apartmentscount,
-          cheaper: cheaper,
-          latest: latest,
-          bedroomscount: bedroomscount,
-          buildingtype: buildingtype,
-          interface: interface,
-          maxdistance: maxdistance,
-          maxprice: maxprice,
-          mindistance: mindistance,
-          minprice: minprice,
-          number: number,
-          purpose: purpose,
-          shopscount: shopscount,
-          streetwidth: streetwidth,
-        );
-      } else {
-        filterParams.page = currentPage;
-        emit(GetFilterPaginationLoadingState());
-      }
-      if (isNearest ?? false) {
-        // final postions = (await getUserAccessLocation());
-        // if (postions == null) {
-        //   emit(HomeInitial());
-        //   return;
-        // }
-        // latLang = postions.latLngFromPostion().toStringServer();
-        filterParams.latLang = latLang;
       }
 
-      final failOrString = await usecase(filterParams);
-      failOrString.fold((fail) {
-        if (fail is ServerFailure) {
-          markers = [];
-          emit(GetFilterErrorState(message: fail.message));
+      if (latLang != null) {
+        lastLatLng = latLang;
+      }
+      if (map == 1 && latLang == null) {
+        latLang = lastLatLng;
+      }
+      if (isMore) {
+        if (currentPage == 1) {
+          filterData = [];
+          emit(GetFilterLoadingState());
+          filterParams = FilterParams(
+            page: currentPage,
+            search: search,
+            isNearst: isNearest,
+            latLang: latLang,
+            age: age,
+            map: map,
+            mine: mine,
+            status: status,
+            bathroomsCount: bathroomsCount,
+            apartmentscount: apartmentscount,
+            cheaper: cheaper,
+            latest: latest,
+            bedroomscount: bedroomscount,
+            buildingtype: buildingtype,
+            interface: interface,
+            maxdistance: maxdistance,
+            maxprice: maxprice,
+            mindistance: mindistance,
+            minprice: minprice,
+            number: number,
+            purpose: purpose,
+            shopscount: shopscount,
+            streetwidth: streetwidth,
+          );
+        } else {
+          filterParams.page = currentPage;
+          emit(GetFilterPaginationLoadingState());
         }
-      }, (reaponse) async {
-        if (reaponse.data.meta != null) {
-          if (currentPage < reaponse.data.meta!.lastPage) {
-            currentPage += 1;
-          } else {
-            isMore = false;
+        if (isNearest ?? false) {
+          // final postions = (await getUserAccessLocation());
+          // if (postions == null) {
+          //   emit(HomeInitial());
+          //   return;
+          // }
+          // latLang = postions.latLngFromPostion().toStringServer();
+          filterParams.latLang = latLang;
+        }
+
+        final failOrString = await usecase(filterParams);
+        failOrString.fold((fail) {
+          if (fail is ServerFailure) {
+            markers = [];
+            emit(GetFilterErrorState(message: fail.message));
           }
-        }
-        // if (myMarker == null || fromDashboardmarker == null) {
-        //   await getBytesFromAsset();
-        // }
-        filterData = currentPage == 1
-            ? reaponse.data.data
-            : filterData + reaponse.data.data;
-        markers = [];
-        for (var element in filterData) {
-          markers.add(Marker(
-              icon: element.fromDashboard
-                  ? await _createMarkerIcon(element.minPrice, element.maxPrice,
-                      'assets/images/dash_icon.png', true)
-                  : await _createMarkerIcon(element.minPrice, element.maxPrice,
-                      'assets/images/home_icon.png', false),
-              markerId: MarkerId(UniqueKey().toString()),
+        }, (reaponse) async {
+          if (reaponse.data.meta != null) {
+            if (currentPage < reaponse.data.meta!.lastPage) {
+              currentPage += 1;
+            } else {
+              isMore = false;
+            }
+          }
+          // if (myMarker == null || fromDashboardmarker == null) {
+          //   await getBytesFromAsset();
+          // }
+          filterData = currentPage == 1
+              ? reaponse.data.data
+              : filterData + reaponse.data.data;
+          markers = [];
+          for (var element in filterData) {
+            markers.add(Marker(
+                icon: element.fromDashboard
+                    ? await _createMarkerIcon(element.minPrice, element.maxPrice,
+                    'assets/images/dash_icon.png', true)
+                    : await _createMarkerIcon(element.minPrice, element.maxPrice,
+                    'assets/images/home_icon.png', false),
+                markerId: MarkerId(UniqueKey().toString()),
 
-              // infoWindow: InfoWindow(
-              //   title:
-              //       ("${element.minPrice} - ${element.maxPrice} ${e.tr("sar")} "),
-              //   onTap: () {
-              //     selectedMarker = element;
-              //     emit(UnitCurrentPage());
-              //     emit(HomeInitial());
-              //   },
-              // ),
-              onTap: () {
-                selectedMarker = element;
-                emit(UnitCurrentPage());
-                emit(HomeInitial());
-              },
-              position:
-                  ("${element.lat},${element.long}").latLngFromStringServer()));
-        }
-        emit(GetFilterSuccessState(data: filterData, markers: markers));
-      });
-    }
+                // infoWindow: InfoWindow(
+                //   title:
+                //       ("${element.minPrice} - ${element.maxPrice} ${e.tr("sar")} "),
+                //   onTap: () {
+                //     selectedMarker = element;
+                //     emit(UnitCurrentPage());
+                //     emit(HomeInitial());
+                //   },
+                // ),
+                onTap: () {
+                  selectedMarker = element;
+                  emit(UnitCurrentPage());
+                  emit(HomeInitial());
+                },
+                position:
+                ("${element.lat},${element.long}").latLngFromStringServer()));
+          }
+          emit(GetFilterSuccessState(data: filterData, markers: markers));
+        });
+      }
+    });
   }
 
   void clearSelectedMarker() {

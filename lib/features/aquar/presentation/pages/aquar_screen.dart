@@ -45,20 +45,19 @@ class _AquarScreenState extends State<AquarScreen> {
   void initState() {
     super.initState();
     context.read<FilterCubit>().fgetFilterData(
-          ifIsMore: true,
-          map: 1,
-          // status: "published",
-          isFirst: true,
-          buildingtype: context.read<FilterCubit>().buildingTypeSelectedId,
-        );
+      map: 1,
+
+      isFirst: true,
+      buildingtype: context.read<FilterCubit>().buildingTypeSelectedId,
+    );
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
         context.read<FilterCubit>().fgetFilterData(
-              // status: "published",
-              map: 1,
-            );
+
+          map: 1,
+        );
       }
     });
   }
@@ -69,17 +68,15 @@ class _AquarScreenState extends State<AquarScreen> {
     return Scaffold(
         backgroundColor: blackColor,
         appBar: DefaultAppBar(
-          // leadingIcon: IconThemeData(color: Colors.black),
           title: tr("aquar"),
           ontapLeading: () {
-
             sl<AppNavigator>().pop();
           },
-          leadingIcon: const Icon(
-            Icons.keyboard_arrow_right,
-            size: 30,
-            color: Colors.black,
-          )
+            leadingIcon: const Icon(
+              Icons.keyboard_arrow_right,
+              size: 30,
+              color: Colors.black,
+            )
         ),
         body: BlocConsumer<FilterCubit, FilterState>(
           listener: (context, state) {
@@ -103,7 +100,7 @@ class _AquarScreenState extends State<AquarScreen> {
                       scrollDirection: Axis.horizontal,
                       physics: const BouncingScrollPhysics(),
                       child:
-                          BlocConsumer<GetRealStatesCubit, GetRealStatesState>(
+                      BlocConsumer<GetRealStatesCubit, GetRealStatesState>(
                         listener: (context, state) {
                           if (state is GetRealStatesErrorState) {
                             showToast(state.message);
@@ -115,9 +112,10 @@ class _AquarScreenState extends State<AquarScreen> {
                             //     .read<FilterCubit>()
                             //     .unitCurrentPage();
                             context.read<FilterCubit>().fgetFilterData(
-                                ifIsMore: true,
+
+                                isFirst: true,
                                 isNearest: onTap1,
-                                // status: "published",
+
                                 map: 1,
                                 buildingtype: state.data.first.id.toString());
                           }
@@ -131,84 +129,84 @@ class _AquarScreenState extends State<AquarScreen> {
                           return Row(
                               children: List.generate(
                                   realStateList.length,
-                                  (index) => Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 5),
-                                        child: InkWell(
-                                          onTap: filterState
-                                                  is GetFilterLoadingState
-                                              ? () {
-                                                  showToast(tr(
-                                                      "please_wait_until_data_loaded"));
-                                                }
-                                              : () {
-                                                  final filterCubit = context
-                                                      .read<FilterCubit>();
-                                                  setState(() {
-                                                    selected = index;
-                                                    context
-                                                        .read<FilterCubit>()
-                                                        .changeSelectedId(
-                                                            newId: realStateList[
-                                                                    index]
-                                                                .id
-                                                                .toString());
-                                                    filterCubit
-                                                            .buildingTypeSelectedId =
-                                                        realStateList[index]
-                                                            .id
-                                                            .toString();
-                                                    filterCubit.fgetFilterData(
-                                                        isFirst: true,
-                                                        // status: "published",
-                                                        map: 1,
-                                                        isNearest: onTap1,
-                                                        buildingtype:
-                                                            realStateList[index]
-                                                                .id
-                                                                .toString());
-                                                  });
-                                                },
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                                color: index == selected
-                                                    ? mainColor
-                                                    : lightBlackColor,
-                                                boxShadow: const [
-                                                  BoxShadow(
-                                                      color: white,
-                                                      spreadRadius: 0,
-                                                      blurRadius: 0),
-                                                ],
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(10.0)),
-                                                border: Border.all(
-                                                  color: index == selected
-                                                      ? mainColor
-                                                      : lightBlackColor,
-                                                )),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 15,
-                                                      vertical: 10),
-                                              child: Center(
-                                                child: Text(
-                                                  realStateList[index].name,
-                                                  style: TextStyles
-                                                      .textViewBold16
-                                                      .copyWith(
-                                                          color:
-                                                              index == selected
-                                                                  ? white
-                                                                  : greyColor),
-                                                ),
-                                              ),
+                                      (index) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 5),
+                                    child: InkWell(
+                                      onTap: filterState
+                                      is GetFilterLoadingState
+                                          ? () {
+                                        showToast(tr(
+                                            "please_wait_until_data_loaded"));
+                                      }
+                                          : () {
+                                        final filterCubit = context
+                                            .read<FilterCubit>();
+                                        setState(() {
+                                          selected = index;
+                                          context
+                                              .read<FilterCubit>()
+                                              .changeSelectedId(
+                                              newId: realStateList[
+                                              index]
+                                                  .id
+                                                  .toString());
+                                          filterCubit
+                                              .buildingTypeSelectedId =
+                                              realStateList[index]
+                                                  .id
+                                                  .toString();
+                                          filterCubit.fgetFilterData(
+                                              isFirst: true,
+
+                                              map: 1,
+                                              isNearest: onTap1,
+                                              buildingtype:
+                                              realStateList[index]
+                                                  .id
+                                                  .toString());
+                                        });
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                            color: index == selected
+                                                ? mainColor
+                                                : lightBlackColor,
+                                            boxShadow: const [
+                                              BoxShadow(
+                                                  color: white,
+                                                  spreadRadius: 0,
+                                                  blurRadius: 0),
+                                            ],
+                                            borderRadius:
+                                            const BorderRadius.all(
+                                                Radius.circular(10.0)),
+                                            border: Border.all(
+                                              color: index == selected
+                                                  ? mainColor
+                                                  : lightBlackColor,
+                                            )),
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 15,
+                                              vertical: 10),
+                                          child: Center(
+                                            child: Text(
+                                              realStateList[index].name,
+                                              style: TextStyles
+                                                  .textViewBold16
+                                                  .copyWith(
+                                                  color:
+                                                  index == selected
+                                                      ? white
+                                                      : greyColor),
                                             ),
                                           ),
                                         ),
-                                      )));
+                                      ),
+                                    ),
+                                  )));
                         },
                       ),
                     ),
@@ -229,28 +227,28 @@ class _AquarScreenState extends State<AquarScreen> {
                             InkWell(
                                 onTap: filterState is GetFilterLoadingState
                                     ? () {
-                                        showToast(tr(
-                                            "please_wait_until_data_loaded"));
-                                      }
+                                  showToast(tr(
+                                      "please_wait_until_data_loaded"));
+                                }
                                     : () {
-                                        setState(() {
-                                          onTap0 = true;
-                                          onTap1 = false;
-                                          onTap2 = false;
-                                          onTap3 = false;
-                                          context
-                                              .read<FilterCubit>()
-                                              .fgetFilterData(
-                                                map: 1,
-                                                isFirst: true,
-                                                isNearest: false,
-                                                // status: "published",
-                                                buildingtype: context
-                                                    .read<FilterCubit>()
-                                                    .buildingTypeSelectedId,
-                                              );
-                                        });
-                                      },
+                                  setState(() {
+                                    onTap0 = true;
+                                    onTap1 = false;
+                                    onTap2 = false;
+                                    onTap3 = false;
+                                    context
+                                        .read<FilterCubit>()
+                                        .fgetFilterData(
+                                      map: 1,
+                                      isFirst: true,
+                                      isNearest: false,
+
+                                      buildingtype: context
+                                          .read<FilterCubit>()
+                                          .buildingTypeSelectedId,
+                                    );
+                                  });
+                                },
                                 child: TitleWidget(
                                   title: tr("all"),
                                   onTap: onTap0,
@@ -258,34 +256,34 @@ class _AquarScreenState extends State<AquarScreen> {
                             InkWell(
                                 onTap: filterState is GetFilterLoadingState
                                     ? () {
-                                        showToast(tr(
-                                            "please_wait_until_data_loaded"));
-                                      }
+                                  showToast(tr(
+                                      "please_wait_until_data_loaded"));
+                                }
                                     : () {
-                                        setState(() {
-                                          onTap0 = false;
-                                          onTap1 = true;
-                                          onTap2 = false;
-                                          onTap3 = false;
-                                          context
-                                              .read<FilterCubit>()
-                                              .fgetFilterData(
-                                                map: 1,
-                                                isFirst: true,
-                                                // status: "published",
-                                                isNearest: true,
-                                                buildingtype: context
-                                                    .read<FilterCubit>()
-                                                    .buildingTypeSelectedId,
-                                                latLang: context
-                                                    .read<PickMapCubit>()
-                                                    .markers
-                                                    .first
-                                                    .position
-                                                    .toStringServer(),
-                                              );
-                                        });
-                                      },
+                                  setState(() {
+                                    onTap0 = false;
+                                    onTap1 = true;
+                                    onTap2 = false;
+                                    onTap3 = false;
+                                    context
+                                        .read<FilterCubit>()
+                                        .fgetFilterData(
+                                      map: 1,
+                                      isFirst: true,
+
+                                      isNearest: true,
+                                      buildingtype: context
+                                          .read<FilterCubit>()
+                                          .buildingTypeSelectedId,
+                                      latLang: context
+                                          .read<PickMapCubit>()
+                                          .markers
+                                          .first
+                                          .position
+                                          .toStringServer(),
+                                    );
+                                  });
+                                },
                                 child: TitleWidget(
                                   title: titles[0],
                                   onTap: onTap1,
@@ -293,27 +291,27 @@ class _AquarScreenState extends State<AquarScreen> {
                             InkWell(
                                 onTap: filterState is GetFilterLoadingState
                                     ? () {
-                                        showToast(tr(
-                                            "please_wait_until_data_loaded"));
-                                      }
+                                  showToast(tr(
+                                      "please_wait_until_data_loaded"));
+                                }
                                     : () {
-                                        setState(() {
-                                          onTap0 = false;
-                                          onTap2 = true;
-                                          onTap1 = false;
-                                          onTap3 = false;
-                                        });
-                                        context
-                                            .read<FilterCubit>()
-                                            .fgetFilterData(
-                                                isFirst: true,
-                                                map: 1,
-                                                // status: "published",
-                                                buildingtype: context
-                                                    .read<FilterCubit>()
-                                                    .buildingTypeSelectedId,
-                                                latest: 1.toString());
-                                      },
+                                  setState(() {
+                                    onTap0 = false;
+                                    onTap2 = true;
+                                    onTap1 = false;
+                                    onTap3 = false;
+                                  });
+                                  context
+                                      .read<FilterCubit>()
+                                      .fgetFilterData(
+                                      isFirst: true,
+                                      map: 1,
+
+                                      buildingtype: context
+                                          .read<FilterCubit>()
+                                          .buildingTypeSelectedId,
+                                      latest: 1.toString());
+                                },
                                 child: TitleWidget(
                                   title: titles[1],
                                   onTap: onTap2,
@@ -321,28 +319,28 @@ class _AquarScreenState extends State<AquarScreen> {
                             InkWell(
                                 onTap: filterState is GetFilterLoadingState
                                     ? () {
-                                        showToast(tr(
-                                            "please_wait_until_data_loaded"));
-                                      }
+                                  showToast(tr(
+                                      "please_wait_until_data_loaded"));
+                                }
                                     : () {
-                                        setState(() {
-                                          onTap0 = false;
-                                          onTap3 = true;
-                                          onTap2 = false;
-                                          onTap1 = false;
-                                        });
-                                        context
-                                            .read<FilterCubit>()
-                                            .fgetFilterData(
-                                              map: 1,
-                                              isFirst: true,
-                                              // status: "published",
-                                              buildingtype: context
-                                                  .read<FilterCubit>()
-                                                  .buildingTypeSelectedId,
-                                              cheaper: 1.toString(),
-                                            );
-                                      },
+                                  setState(() {
+                                    onTap0 = false;
+                                    onTap3 = true;
+                                    onTap2 = false;
+                                    onTap1 = false;
+                                  });
+                                  context
+                                      .read<FilterCubit>()
+                                      .fgetFilterData(
+                                    map: 1,
+                                    isFirst: true,
+
+                                    buildingtype: context
+                                        .read<FilterCubit>()
+                                        .buildingTypeSelectedId,
+                                    cheaper: 1.toString(),
+                                  );
+                                },
                                 child: TitleWidget(
                                   title: titles[2],
                                   onTap: onTap3,
@@ -376,7 +374,7 @@ class _AquarScreenState extends State<AquarScreen> {
                             itemBuilder: (BuildContext context, int index) {
                               if (filterBloc.filterData.length == index) {
                                 if (filterState
-                                    is GetFilterPaginationLoadingState) {
+                                is GetFilterPaginationLoadingState) {
                                   return const Center(
                                       child: CircularProgressIndicator());
                                 } else {
@@ -385,11 +383,11 @@ class _AquarScreenState extends State<AquarScreen> {
                               }
                               return Padding(
                                 padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
+                                const EdgeInsets.symmetric(vertical: 5),
                                 child: HomeCard(
                                   issold: filterBloc.filterData[index]
-                                              .currentStatus ==
-                                          'sold'
+                                      .currentStatus ==
+                                      'sold'
                                       ? true
                                       : false,
                                   views: filterBloc.filterData[index].views
@@ -398,26 +396,26 @@ class _AquarScreenState extends State<AquarScreen> {
                                   tap: (() {
                                     sl<AppNavigator>().push(
                                         screen: AquarDetailsScreen(
-                                      aqratScreen: true,
-                                      data: filterBloc.filterData[index],
-                                      fromUnderReview: false,
-                                    ));
+                                          aqratScreen: true,
+                                          data: filterBloc.filterData[index],
+                                          fromUnderReview: false,
+                                        ));
                                   }),
                                   advId: filterBloc.filterData[index].id,
                                   imgUrl: filterBloc.filterData[index].icon,
                                   isFavorite:
-                                      filterBloc.filterData[index].isFavorite,
+                                  filterBloc.filterData[index].isFavorite,
                                   productName:
-                                      "${filterBloc.filterData[index].id}# : ${filterBloc.filterData[index].buildingType.name}",
+                                  "${filterBloc.filterData[index].id}# : ${filterBloc.filterData[index].buildingType.name}",
                                   curreny: tr("rs"),
                                   date:
-                                      filterBloc.filterData[index].creationTime,
+                                  filterBloc.filterData[index].creationTime,
                                   distance:
-                                      "${filterBloc.filterData[index].maxDistance}-${filterBloc.filterData[index].minDistance}",
+                                  "${filterBloc.filterData[index].maxDistance}-${filterBloc.filterData[index].minDistance}",
                                   location:
-                                      filterBloc.filterData[index].address,
+                                  filterBloc.filterData[index].address,
                                   price:
-                                      "${filterBloc.filterData[index].maxPrice}-${filterBloc.filterData[index].minPrice}",
+                                  "${filterBloc.filterData[index].maxPrice}-${filterBloc.filterData[index].minPrice}",
                                 ),
                               );
                             });
